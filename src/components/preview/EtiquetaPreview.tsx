@@ -9,7 +9,7 @@ interface EtiquetaPreviewProps {
 }
 
 const EtiquetaPreview = ({ formData }: EtiquetaPreviewProps) => {
-  const designImage = formData.design ? DESIGN_IMAGES[formData.design] : null
+  const designImage = formData.design ? DESIGN_IMAGES[formData.design] : "/images/etiqueta/fondo-01.png"
   const letterSpacing = 0
 
   return (

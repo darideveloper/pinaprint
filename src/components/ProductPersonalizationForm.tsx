@@ -170,7 +170,10 @@ const ProductPersonalizationForm = () => {
         'grid-cols-1',
         'lg:grid-cols-2',
         'gap-4',
-        'md:gap-8'
+        'md:gap-8',
+        'justify-center',
+        'items-center',
+        'h-auto md:h-full',
       )}>
         {/* Form */}
         <Card className={clsx(

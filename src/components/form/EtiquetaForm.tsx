@@ -36,7 +36,7 @@ const EtiquetaForm = ({ formData, onChange, onFileUpload }: EtiquetaFormProps) =
       'mt-6',
       'animate-in',
       'slide-in-from-left-5',
-      'duration-300'
+      'duration-300',
     )}>
       <div className={clsx(
         'grid',

@@ -15,7 +15,7 @@ function App() {
             'container',
             'mx-auto',
             'py-8',
-            'px-4',
+            'px-0 sm:px-4',
             'lg:px-8',
             'min-h-[92vh]',
             'justify-center',

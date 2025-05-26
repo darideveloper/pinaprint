@@ -49,7 +49,7 @@ const EtiquetaPreview = ({ formData }: EtiquetaPreviewProps) => {
           'left-0',
           'w-full',
           'h-full',
-          'z-20'
+          'z-20',
         )}
         style={{
           fontFamily: 'Arial',
@@ -79,7 +79,7 @@ const EtiquetaPreview = ({ formData }: EtiquetaPreviewProps) => {
               'left-1/2',
               'transform',
               '-translate-x-1/2',
-              '-translate-y-1/2',
+              '-translate-y-1/2'
             )}
           >
             {formData.logo ? (
@@ -94,35 +94,100 @@ const EtiquetaPreview = ({ formData }: EtiquetaPreviewProps) => {
           </div>
 
           <div
-            className={clsx('flex-1', 'ml-4', 'text-left', 'overflow-hidden')}
+            className={clsx('content', 'flex-1', 'ml-4', 'text-left', 'overflow-hidden')}
           >
             <div
               className={clsx(
+                'phone-wrapper',
                 'flex',
                 'items-center',
                 'gap-2',
                 'mb-2',
-                'overflow-hidden'
+                'overflow-hidden',
+                'absolute',
+                'top-10',
+                'left-1/2',
+                'transform',
+                '-translate-x-1/2'
               )}
             >
-              <PhoneIcon
-                className={clsx('h-4', 'w-4', 'text-primary', 'flex-shrink-0')}
-              />
-              <span
-                className={clsx(
-                  'font-medium',
-                  'truncate',
-                  !formData.phone && 'text-muted-foreground'
-                )}
+              <svg
+                width={260}
+                height={75}
+                viewBox="0 0 260 60"
+                style={{ display: 'block' }}
               >
-                {formData.phone || '809-123-4567'}
-              </span>
+                <defs>
+                  <path
+                    id="phoneCurve"
+                    d="M20,60 A110,55 0 0,1 240,60"
+                    fill="transparent"
+                  />
+                </defs>
+                <text
+                  fontSize="28"
+                  fontWeight="normal"
+                  fill={formData.phone ? '#000' : '#000'}
+                  textAnchor="middle"
+                  letterSpacing={letterSpacing}
+                  fontFamily="Arial"
+                >
+                  <textPath
+                    xlinkHref="#phoneCurve"
+                    startOffset="50%"
+                    alignmentBaseline="middle"
+                  >
+                    {`${'\u260E'} ${formData.phone || '809-123-4567'}`}
+                  </textPath>
+                </text>
+              </svg>
             </div>
 
+            {/* Social network as inverted curve */}
             <div
-              className={clsx('text-sm', 'text-muted-foreground', 'truncate')}
+              className={clsx(
+                'social-wrapper',
+                'flex',
+                'items-center',
+                'gap-2',
+                'overflow-hidden',
+                'absolute',
+                'bottom-9',
+                'left-1/2',
+                'transform',
+                '-translate-x-1/2'
+              )}
             >
-              {formData.socialNetwork || '@miempresa'}
+              <svg
+                width={260}
+                height={75}
+                viewBox="0 0 260 60"
+                style={{ display: 'block' }}
+              >
+                <defs>
+                  <path
+                    id="socialCurve"
+                    d="M20,0 A110,55 0 0,0 240,0"
+                    fill="transparent"
+                  />
+                </defs>
+                <text
+                  fontSize="28"
+                  fontWeight="normal"
+                  fill="#000"
+                  textAnchor="middle"
+                  letterSpacing={letterSpacing}
+                  fontFamily="Arial"
+                >
+                  <textPath
+                    xlinkHref="#socialCurve"
+                    startOffset="50%"
+                    alignmentBaseline="middle"
+                  >
+                    {formData.socialNetwork || '@miempresa'}
+                  </textPath>
+                </text>
+              </svg>
             </div>
           </div>
         </div>

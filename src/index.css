@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+#root {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
 @font-face {
   font-family: 'Montserrat';
   src: url('/fonts/Montserrat-Regular.ttf') format('truetype');

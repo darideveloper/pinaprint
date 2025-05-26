@@ -1,23 +1,24 @@
 import { ThemeProvider } from '@/components/theme-provider'
 import { Toaster } from '@/components/ui/sonner'
 import ProductPersonalizationForm from '@/components/ProductPersonalizationForm'
-import { PrinterIcon } from 'lucide-react'
 import { clsx } from 'clsx'
 
 function App() {
   return (
     <ThemeProvider defaultTheme='light'>
       <div
-        className={clsx('min-h-screen', 'bg-background', 'flex', 'flex-col')}
+        className={clsx('min-h-screen', 'bg-background', 'flex', 'flex-col', 'w-full')}
       >
         <main
           className={clsx(
-            'flex-1',
+            'flex',
             'container',
             'mx-auto',
             'py-8',
             'px-4',
-            'lg:px-8'
+            'lg:px-8',
+            'min-h-[92vh]',
+            'justify-center',
           )}
         >
           <ProductPersonalizationForm />

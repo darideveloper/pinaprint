@@ -20,11 +20,13 @@ const EtiquetaPreview = ({ formData }: EtiquetaPreviewProps) => {
         'mx-auto',
         'overflow-hidden',
         'border-2',
-        'rounded-full'
+        'rounded-full',
+        'relative',
+        '!bg-transparent',
       )}
     >
       <div
-        className={clsx('h-32', 'bg-cover', 'bg-center')}
+        className={clsx('h-full', 'bg-cover', 'bg-center', 'absolute', 'z-10', 'w-full', 'h-full')}
         style={{
           backgroundImage: designImage
             ? `url(${designImage})`

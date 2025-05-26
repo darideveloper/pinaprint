@@ -8,6 +8,10 @@
   margin: 0 auto;
 }
 
+.debug {
+  border: 1px solid red;
+}
+
 @font-face {
   font-family: 'Montserrat';
   src: url('/fonts/Montserrat-Regular.ttf') format('truetype');

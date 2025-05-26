@@ -22,11 +22,19 @@ const EtiquetaPreview = ({ formData }: EtiquetaPreviewProps) => {
         'border-2',
         'rounded-full',
         'relative',
-        '!bg-transparent',
+        '!bg-transparent'
       )}
     >
       <div
-        className={clsx('h-full', 'bg-cover', 'bg-center', 'absolute', 'z-10', 'w-full', 'h-full')}
+        className={clsx(
+          'h-full',
+          'bg-cover',
+          'bg-center',
+          'absolute',
+          'z-10',
+          'w-full',
+          'h-full'
+        )}
         style={{
           backgroundImage: designImage
             ? `url(${designImage})`
@@ -34,7 +42,15 @@ const EtiquetaPreview = ({ formData }: EtiquetaPreviewProps) => {
         }}
       />
       <CardContent
-        className={clsx('p-4')}
+        className={clsx(
+          'p-4',
+          'absolute',
+          'top-0',
+          'left-0',
+          'w-full',
+          'h-full',
+          'z-20'
+        )}
         style={{
           fontFamily: 'Arial',
           letterSpacing: `${letterSpacing}px`,
@@ -43,8 +59,9 @@ const EtiquetaPreview = ({ formData }: EtiquetaPreviewProps) => {
         <div className={clsx('flex', 'justify-between', 'items-start')}>
           <div
             className={clsx(
-              'w-16',
-              'h-16',
+              'logo-wrapper',
+              'w-64',
+              'h-64',
               'rounded-full',
               'overflow-hidden',
               'border-2',
@@ -55,8 +72,14 @@ const EtiquetaPreview = ({ formData }: EtiquetaPreviewProps) => {
               'items-center',
               'justify-center',
               'text-muted-foreground',
-              'text-xs',
-              'text-center'
+              'text-xl',
+              'text-center',
+              'absolute',
+              'top-1/2',
+              'left-1/2',
+              'transform',
+              '-translate-x-1/2',
+              '-translate-y-1/2',
             )}
           >
             {formData.logo ? (
@@ -66,7 +89,7 @@ const EtiquetaPreview = ({ formData }: EtiquetaPreviewProps) => {
                 className={clsx('w-full', 'h-full', 'object-contain')}
               />
             ) : (
-              'Logo'
+              'Tu Logo Aquí'
             )}
           </div>
 

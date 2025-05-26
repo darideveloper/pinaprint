@@ -15,8 +15,8 @@ const EtiquetaPreview = ({ formData }: EtiquetaPreviewProps) => {
   return (
     <Card
       className={clsx(
-        'w-[400px]',
-        'h-[400px]',
+        'w-[280px] sm:w-[400px]',
+        'h-[280px] sm:h-[400px]',
         'mx-auto',
         'overflow-hidden',
         'border-2',
@@ -27,13 +27,12 @@ const EtiquetaPreview = ({ formData }: EtiquetaPreviewProps) => {
     >
       <div
         className={clsx(
-          'h-full',
           'bg-cover',
           'bg-center',
           'absolute',
           'z-10',
           'w-full',
-          'h-full'
+          'h-full',
         )}
         style={{
           backgroundImage: designImage
@@ -59,6 +58,7 @@ const EtiquetaPreview = ({ formData }: EtiquetaPreviewProps) => {
         <div className={clsx('flex', 'justify-between', 'items-start')}>
           <div
             className={clsx(
+              'scale-[0.7] sm:scale-[1]',
               'logo-wrapper',
               'w-64',
               'h-64',
@@ -98,6 +98,7 @@ const EtiquetaPreview = ({ formData }: EtiquetaPreviewProps) => {
           >
             <div
               className={clsx(
+                'scale-[0.7] sm:scale-[1]',
                 'phone-wrapper',
                 'flex',
                 'items-center',
@@ -105,7 +106,7 @@ const EtiquetaPreview = ({ formData }: EtiquetaPreviewProps) => {
                 'mb-2',
                 'overflow-hidden',
                 'absolute',
-                'top-10',
+                'top-4 sm:top-10',
                 'left-1/2',
                 'transform',
                 '-translate-x-1/2'
@@ -147,12 +148,13 @@ const EtiquetaPreview = ({ formData }: EtiquetaPreviewProps) => {
             <div
               className={clsx(
                 'social-wrapper',
+                'scale-[0.7] sm:scale-[1]',
                 'flex',
                 'items-center',
                 'gap-2',
                 'overflow-hidden',
                 'absolute',
-                'bottom-9',
+                'bottom-3 sm:bottom-9',
                 'left-1/2',
                 'transform',
                 '-translate-x-1/2'

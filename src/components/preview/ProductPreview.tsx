@@ -28,16 +28,17 @@ const ProductPreview = ({ productType, formData }: ProductPreviewProps) => {
 
   return (
     <div className={clsx(
+      'preview-container',
       'min-h-[300px]',
       'flex',
       'items-center',
       'justify-center',
-      'p-6',
+      'p-0',
       'bg-muted/30',
       'rounded-lg',
       'animate-in',
       'fade-in-50',
-      'duration-500'
+      'duration-500',
     )}>
       {renderPreview()}
     </div>

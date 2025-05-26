@@ -174,10 +174,11 @@ const ProductPersonalizationForm = () => {
         'gap-4',
         'md:gap-8'
       )}>
+        {/* Form */}
         <Card className={clsx(
           'lg:sticky',
           'lg:top-8',
-          'print:hidden'
+          'print:hidden',
         )}>
           <CardContent className={clsx('pt-4', 'md:pt-6', 'space-y-4', 'md:space-y-8')}>
             <div className={clsx('space-y-4', 'md:space-y-8')}>
@@ -194,6 +195,7 @@ const ProductPersonalizationForm = () => {
           </CardContent>
         </Card>
 
+        {/* Preview */}
         {productType && (
           <Card className={clsx(
             'overflow-hidden',

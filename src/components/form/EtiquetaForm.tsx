@@ -9,7 +9,7 @@ import {
   SelectTrigger, 
   SelectValue 
 } from '../ui/select';
-import { DESIGN_OPTIONS } from '@/constants/designOptions';
+import { DESIGN_OPTIONS, DESIGN_IMAGES } from '@/constants/designOptions';
 import { UploadIcon } from 'lucide-react';
 import { useState } from 'react';
 
@@ -67,8 +67,17 @@ const EtiquetaForm = ({ formData, onChange, onFileUpload }: EtiquetaFormProps) =
         </SelectTrigger>
         <SelectContent>
           {DESIGN_OPTIONS.map((option) => (
-            <SelectItem key={option.value} value={option.value}>
-              {option.label}
+            <SelectItem key={option.value} value={option.value} className="flex items-center">
+              <div className="content flex items-center justify-center">
+                <img 
+                  src={DESIGN_IMAGES[option.value]}
+                  alt={option.label} 
+                  className="w-6 h-6 object-cover mr-2 inline-block"
+                />
+                <span className={'inline-block'}>
+                  {option.label}
+                </span>
+              </div>
             </SelectItem>
           ))}
         </SelectContent>

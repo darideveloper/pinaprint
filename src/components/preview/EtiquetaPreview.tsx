@@ -10,7 +10,7 @@ interface EtiquetaPreviewProps {
 
 const EtiquetaPreview = ({ formData }: EtiquetaPreviewProps) => {
   const designImage = formData.design ? DESIGN_IMAGES[formData.design] : null
-  const letterSpacing = formData.letterSpacing ?? 0
+  const letterSpacing = 0
 
   return (
     <Card

@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { clsx } from 'clsx';
 import ProductTypeSelector from './form/ProductTypeSelector';
 import FontSelector from './form/FontSelector';
-import LetterSpacingControl from './form/LetterSpacingControl';
 import EtiquetaForm from './form/EtiquetaForm';
 import LetreroForm from './form/LetreroForm';
 import SelloRectangularForm from './form/SelloRectangularForm';
@@ -11,7 +10,6 @@ import ProductPreview from './preview/ProductPreview';
 import ShareButtons from './ShareButtons';
 import { Card, CardContent } from './ui/card';
 import { ProductType, FormData } from '@/types/form';
-import { toast } from 'sonner';
 import { DESIGN_FONTS } from '@/constants/designFonts';
 
 const ProductPersonalizationForm = () => {
@@ -191,10 +189,6 @@ const ProductPersonalizationForm = () => {
                   productType={productType}
                 />
               )}
-              <LetterSpacingControl
-                value={formData.letterSpacing ?? 0}
-                onChange={(value) => handleFormChange({ letterSpacing: value })}
-              />
               {renderForm()}
             </div>
           </CardContent>

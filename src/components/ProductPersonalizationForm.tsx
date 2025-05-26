@@ -105,9 +105,7 @@ const ProductPersonalizationForm = () => {
         logo: reader.result as string
       };
       setFormData(newData);
-      if (productType) {
-        updateURL(newData, productType);
-      }
+      // Removed URL update for logo
     };
     reader.readAsDataURL(file);
   };

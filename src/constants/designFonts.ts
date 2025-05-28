@@ -11,7 +11,7 @@ export const DESIGN_FONTS: Record<ProductType, FontOption[]> = {
     { value: 'arial', label: 'Arial', fontFamily: 'Arial' }
   ],
   'letrero': [
-    { value: 'montserrat', label: 'Montserrat', fontFamily: 'Montserrat' }
+    { value: 'impact', label: 'Impact', fontFamily: 'Impact' }
   ],
   'sello-rectangular': [
     { value: 'helvetica', label: 'Helvetica', fontFamily: 'Helvetica' },

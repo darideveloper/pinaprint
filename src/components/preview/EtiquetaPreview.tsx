@@ -89,7 +89,7 @@ const EtiquetaPreview = ({ formData }: EtiquetaPreviewProps) => {
 
       const phoneText = formData.phone
         ? `   ${formData.phone}`
-        : '   809-123-4567'
+        : '   829-623-4554'
 
       // Calculate relative font size based on canvas width
       const fontSize = Math.max(canvas.width * 0.08, 16) // Minimum 16px, or 5% of canvas width
@@ -153,7 +153,7 @@ const EtiquetaPreview = ({ formData }: EtiquetaPreviewProps) => {
 
       const socialText = formData.socialNetwork
         ? `   ${formData.socialNetwork}`
-        : '   miempresa'
+        : '   @redessociales'
 
       // Calculate relative font size based on canvas width
       const fontSize = Math.max(canvas.width * 0.08, 16) // Minimum 16px, or 5% of canvas width
@@ -219,10 +219,10 @@ const EtiquetaPreview = ({ formData }: EtiquetaPreviewProps) => {
 
     // Calculate icons rotation
     const phoneTextWidth = ctx.measureText(
-      formData.phone || '   809-123-4567'
+      formData.phone || '   829-623-4554'
     ).width
     const socialTextWidth = ctx.measureText(
-      formData.socialNetwork || '   miempresa'
+      formData.socialNetwork || '   @redessociales'
     ).width
     const whatsappAngle = -phoneTextWidth * 0.5 - 15 // Adjust angle based on text width
     const instagramAngle = socialTextWidth * 0.7 + 15 // Adjust angle based on text width

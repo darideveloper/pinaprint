@@ -69,13 +69,14 @@ const EtiquetaPreview = ({ formData }: EtiquetaPreviewProps) => {
         ctx.drawImage(img, x, y, drawWidth, drawHeight);
         
         // Draw the curved text after the image is loaded
-        drawCurvedText();
+        drawCurvedPhoneText();
+        drawCurvedSocialText();
       };
       img.src = designImage;
     };
 
-    // Function to draw curved text at the top of the canvas
-    const drawCurvedText = () => {
+    // Function to draw curved phone text at the top of the canvas
+    const drawCurvedPhoneText = () => {
       if (!ctx) return;
       
       const phoneText = formData.phone ? `   ${formData.phone}` : '   809-123-4567';
@@ -130,6 +131,67 @@ const EtiquetaPreview = ({ formData }: EtiquetaPreviewProps) => {
         // Draw the character
         ctx.fillText(phoneText[i], 0, 0);
         
+        // Restore the context state
+        ctx.restore();
+      }
+    };
+
+    // Function to draw curved social text at the top of the canvas
+    const drawCurvedSocialText = () => {
+      if (!ctx) return;
+
+      const socialText = formData.social ? `   ${formData.social}` : '   miempresa';
+      
+      // Calculate relative font size based on canvas width
+      const fontSize = Math.max(canvas.width * 0.08, 16); // Minimum 16px, or 5% of canvas width
+      
+      // Set text properties
+      ctx.font = `${fontSize}px Arial`;
+      ctx.fillStyle = '#000000';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      
+      // Calculate the radius for the text arc (slightly smaller than canvas radius)
+      const radius = canvas.width * 0.4;
+      
+      // Center point of the canvas
+      const centerX = canvas.width / 2;
+      const centerY = canvas.height / 2;
+      
+      // Start angle for the arc (at the top of the circle, moving clockwise)
+      const startAngle = -Math.PI / 2; // -90 degrees (top of circle)
+      
+      // Calculate the angle span based on text length
+      // Longer text needs a wider arc
+      const textLength = socialText.length;
+      const angleSpan = Math.min(Math.PI * 0.7, textLength * 0.05); // Limit to 80% of half-circle
+      
+      // Apply letter spacing to the angle calculation
+      // Increase the spacing factor based on letterSpacing value
+      const spacingFactor = 2;
+      
+      // Calculate the starting angle for the text
+      const textStartAngle = startAngle - (angleSpan * spacingFactor) / 2;
+
+      // Draw each character along the arc
+      for (let i = 0; i < textLength; i++) {
+        // Calculate the angle for this character with letter spacing applied
+        const charAngle = textStartAngle + ((angleSpan * spacingFactor) * i / (textLength - 1));
+        
+        // Calculate position
+        const x = centerX + radius * Math.cos(charAngle);
+        const y = centerY + radius * Math.sin(charAngle) + (canvas.width / 45); // Adjust y to center text vertically
+        
+        // Save the current context state
+        ctx.save();
+        
+        // Move to the position and rotate
+        ctx.translate(x, y);
+        ctx.rotate(charAngle + Math.PI / 2); // Add 90 degrees to align text properly
+        
+        // Draw the character
+        ctx.fillText(socialText[i], 0, 0);
+
         // Restore the context state
         ctx.restore();
       }

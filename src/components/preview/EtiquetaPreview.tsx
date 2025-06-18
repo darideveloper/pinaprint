@@ -1,20 +1,155 @@
 import { FormData } from '@/types/form'
 import { Card, CardContent } from '../ui/card'
 import { DESIGN_IMAGES } from '@/constants/designOptions'
-import { PhoneIcon } from 'lucide-react'
+import { FaInstagram, FaWhatsapp } from "react-icons/fa6";
+
 import { clsx } from 'clsx'
+import { useEffect, useState, useRef } from 'react';
 
 interface EtiquetaPreviewProps {
   formData: FormData
 }
 
 const EtiquetaPreview = ({ formData }: EtiquetaPreviewProps) => {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
   const designImage = formData.design ? DESIGN_IMAGES[formData.design] : "/images/etiqueta/fondo-01.png"
-  const letterSpacing = 0
+  const letterSpacing = formData.letterSpacing || 0
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    // Set canvas dimensions to match its display size
+    const updateCanvasSize = () => {
+      const parent = canvas.parentElement;
+      if (!parent) return;
+      
+      const { width, height } = parent.getBoundingClientRect();
+      canvas.width = width;
+      canvas.height = height;
+      
+      // Redraw when size changes
+      drawOnCanvas();
+    };
+
+    // Draw the design image on the canvas
+    const drawOnCanvas = () => {
+      if (!ctx) return;
+      
+      // Clear the canvas
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+      // Create a circular clipping path
+      ctx.beginPath();
+      ctx.arc(canvas.width / 2, canvas.height / 2, canvas.width / 2, 0, Math.PI * 2);
+      ctx.clip();
+      
+      // Load and draw the background image
+      const img = new Image();
+      img.onload = () => {
+        // Draw the image to fill the canvas while maintaining aspect ratio
+        const aspectRatio = img.width / img.height;
+        let drawWidth = canvas.width;
+        let drawHeight = canvas.width / aspectRatio;
+        
+        if (drawHeight < canvas.height) {
+          drawHeight = canvas.height;
+          drawWidth = canvas.height * aspectRatio;
+        }
+        
+        const x = (canvas.width - drawWidth) / 2;
+        const y = (canvas.height - drawHeight) / 2;
+        
+        ctx.drawImage(img, x, y, drawWidth, drawHeight);
+        
+        // Draw the curved text after the image is loaded
+        drawCurvedText();
+      };
+      img.src = designImage;
+    };
+    
+    // Function to draw curved text at the top of the canvas
+    const drawCurvedText = () => {
+      if (!ctx) return;
+      
+      const phoneText = formData.phone || '809-123-4567';
+      
+      // Calculate relative font size based on canvas width
+      const fontSize = Math.max(canvas.width * 0.08, 16); // Minimum 16px, or 5% of canvas width
+      
+      // Set text properties
+      ctx.font = `${fontSize}px Arial`;
+      ctx.fillStyle = '#000000';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      
+      // Calculate the radius for the text arc (slightly smaller than canvas radius)
+      const radius = canvas.width * 0.4;
+      
+      // Center point of the canvas
+      const centerX = canvas.width / 2;
+      const centerY = canvas.height / 2;
+      
+      // Start angle for the arc (at the top of the circle, moving clockwise)
+      const startAngle = -Math.PI / 2; // -90 degrees (top of circle)
+      
+      // Calculate the angle span based on text length
+      // Longer text needs a wider arc
+      const textLength = phoneText.length;
+      const angleSpan = Math.min(Math.PI * 0.7, textLength * 0.05); // Limit to 80% of half-circle
+      
+      // Apply letter spacing to the angle calculation
+      // Increase the spacing factor based on letterSpacing value
+      const spacingFactor = 2;
+      
+      // Calculate the starting angle for the text
+      const textStartAngle = startAngle - (angleSpan * spacingFactor) / 2;
+      
+      // Draw each character along the arc
+      for (let i = 0; i < textLength; i++) {
+        // Calculate the angle for this character with letter spacing applied
+        const charAngle = textStartAngle + ((angleSpan * spacingFactor) * i / (textLength - 1));
+        
+        // Calculate position
+        const x = centerX + radius * Math.cos(charAngle);
+        const y = centerY + radius * Math.sin(charAngle) + (canvas.width / 45); // Adjust y to center text vertically
+        
+        // Save the current context state
+        ctx.save();
+        
+        // Move to the position and rotate
+        ctx.translate(x, y);
+        ctx.rotate(charAngle + Math.PI / 2); // Add 90 degrees to align text properly
+        
+        // Draw the character
+        ctx.fillText(phoneText[i], 0, 0);
+        
+        // Restore the context state
+        ctx.restore();
+      }
+    };
+
+    // Initial setup
+    updateCanvasSize();
+    
+    // Handle window resize
+    window.addEventListener('resize', updateCanvasSize);
+    
+    // Cleanup
+    return () => {
+      window.removeEventListener('resize', updateCanvasSize);
+    };
+  }, [designImage, formData.phone, formData.letterSpacing]);
 
   return (
     <Card
+      ref={cardRef}
       className={clsx(
+        'etiqueta-preview',
         'w-[280px] sm:w-[400px]',
         'h-[280px] sm:h-[400px]',
         'mx-auto',
@@ -22,176 +157,17 @@ const EtiquetaPreview = ({ formData }: EtiquetaPreviewProps) => {
         'border-2',
         'rounded-full',
         'relative',
-        '!bg-transparent'
+        '!bg-transparent',
       )}
     >
-      <div
+      <canvas 
+        ref={canvasRef}
         className={clsx(
-          'bg-cover',
-          'bg-center',
-          'absolute',
-          'z-10',
           'w-full',
           'h-full',
+          'rounded-full'
         )}
-        style={{
-          backgroundImage: designImage
-            ? `url(${designImage})`
-            : 'linear-gradient(to right, #4f46e5, #8b5cf6)',
-        }}
       />
-      <CardContent
-        className={clsx(
-          'p-4',
-          'absolute',
-          'top-0',
-          'left-0',
-          'w-full',
-          'h-full',
-          'z-20',
-        )}
-        style={{
-          fontFamily: 'Arial',
-          letterSpacing: `${letterSpacing}px`,
-        }}
-      >
-        <div className={clsx('flex', 'justify-between', 'items-start')}>
-          <div
-            className={clsx(
-              'scale-[0.7] sm:scale-[1]',
-              'logo-wrapper',
-              'w-64',
-              'h-64',
-              'rounded-full',
-              'overflow-hidden',
-              'flex-shrink-0',
-              'bg-white',
-              'flex',
-              'items-center',
-              'justify-center',
-              'text-muted-foreground',
-              'text-xl',
-              'text-center',
-              'absolute',
-              'top-1/2',
-              'left-1/2',
-              'transform',
-              '-translate-x-1/2',
-              '-translate-y-1/2'
-            )}
-          >
-            {formData.logo ? (
-              <img
-                src={formData.logo}
-                alt='Logo'
-                className={clsx('w-full', 'h-full', 'object-contain')}
-              />
-            ) : (
-              'Tu Logo Aquí'
-            )}
-          </div>
-
-          <div
-            className={clsx('content', 'flex-1', 'ml-4', 'text-left', 'overflow-hidden')}
-          >
-            <div
-              className={clsx(
-                'scale-[0.7] sm:scale-[1]',
-                'phone-wrapper',
-                'flex',
-                'items-center',
-                'gap-2',
-                'mb-2',
-                'overflow-hidden',
-                'absolute',
-                'top-4 sm:top-10',
-                'left-1/2',
-                'transform',
-                '-translate-x-1/2'
-              )}
-            >
-              <svg
-                width={260}
-                height={75}
-                viewBox="0 0 260 60"
-                style={{ display: 'block' }}
-              >
-                <defs>
-                  <path
-                    id="phoneCurve"
-                    d="M20,60 A110,55 0 0,1 240,60"
-                    fill="transparent"
-                  />
-                </defs>
-                <text
-                  fontSize="28"
-                  fontWeight="normal"
-                  fill={formData.phone ? '#000' : '#000'}
-                  textAnchor="middle"
-                  letterSpacing={letterSpacing}
-                  fontFamily="Arial"
-                >
-                  <textPath
-                    xlinkHref="#phoneCurve"
-                    startOffset="50%"
-                    alignmentBaseline="middle"
-                  >
-                    {`${'\u260E'} ${formData.phone || '809-123-4567'}`}
-                  </textPath>
-                </text>
-              </svg>
-            </div>
-
-            {/* Social network as inverted curve */}
-            <div
-              className={clsx(
-                'social-wrapper',
-                'scale-[0.7] sm:scale-[1]',
-                'flex',
-                'items-center',
-                'gap-2',
-                'overflow-hidden',
-                'absolute',
-                'bottom-3 sm:bottom-9',
-                'left-1/2',
-                'transform',
-                '-translate-x-1/2'
-              )}
-            >
-              <svg
-                width={260}
-                height={75}
-                viewBox="0 0 260 60"
-                style={{ display: 'block' }}
-              >
-                <defs>
-                  <path
-                    id="socialCurve"
-                    d="M20,0 A110,55 0 0,0 240,0"
-                    fill="transparent"
-                  />
-                </defs>
-                <text
-                  fontSize="28"
-                  fontWeight="normal"
-                  fill="#000"
-                  textAnchor="middle"
-                  letterSpacing={letterSpacing}
-                  fontFamily="Arial"
-                >
-                  <textPath
-                    xlinkHref="#socialCurve"
-                    startOffset="50%"
-                    alignmentBaseline="middle"
-                  >
-                    {formData.socialNetwork || '@miempresa'}
-                  </textPath>
-                </text>
-              </svg>
-            </div>
-          </div>
-        </div>
-      </CardContent>
     </Card>
   )
 }

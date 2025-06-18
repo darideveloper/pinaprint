@@ -202,7 +202,7 @@ const ProductPersonalizationForm = () => {
             'overflow-hidden',
             'print-content'
           )}>
-            <CardContent className={clsx('pt-4', 'md:pt-6')}>
+            <CardContent className={clsx('!p-2', 'md:pt-6')}>
               <h2 className={clsx(
                 'text-xl',
                 'font-semibold',

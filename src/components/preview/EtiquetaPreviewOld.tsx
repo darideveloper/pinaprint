@@ -96,7 +96,7 @@ const EtiquetaPreview = ({ formData }: EtiquetaPreviewProps) => {
           'z-20',
         )}
         style={{
-          fontFamily: 'Arial',
+          fontFamily: 'LiberationMono',
           letterSpacing: `${letterSpacing}px`,
         }}
       >
@@ -174,7 +174,7 @@ const EtiquetaPreview = ({ formData }: EtiquetaPreviewProps) => {
                   fill={formData.phone ? '#000' : '#000'}
                   textAnchor="middle"
                   letterSpacing={letterSpacing}
-                  fontFamily="Arial"
+                  fontFamily="LiberationMono"
                 >
                   <textPath
                     xlinkHref="#phoneCurve"
@@ -222,7 +222,7 @@ const EtiquetaPreview = ({ formData }: EtiquetaPreviewProps) => {
                   fill="#000"
                   textAnchor="middle"
                   letterSpacing={letterSpacing}
-                  fontFamily="Arial"
+                  fontFamily="LiberationMono"
                 >
                   <textPath
                     xlinkHref="#socialCurve"

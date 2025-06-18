@@ -41,8 +41,15 @@
 }
 
 @font-face {
-  font-family: 'Impact';
-  src: url('/fonts/impact.ttf') format('truetype');
+  font-family: 'LiberationMono';
+  src: url('/fonts/liberation-mono.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Arial';
+  src: url('/fonts/arial.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }

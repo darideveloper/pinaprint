@@ -8,7 +8,7 @@ export interface FontOption {
 
 export const DESIGN_FONTS: Record<ProductType, FontOption[]> = {
   'etiqueta': [
-    { value: 'arial', label: 'Arial', fontFamily: 'Arial' }
+    { value: 'LiberationMono', label: 'LiberationMono', fontFamily: 'LiberationMono' }
   ],
   'letrero': [
     { value: 'impact', label: 'Impact', fontFamily: 'Impact' }

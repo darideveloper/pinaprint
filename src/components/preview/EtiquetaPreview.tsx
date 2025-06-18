@@ -1,10 +1,10 @@
 import { FormData } from '@/types/form'
 import { Card, CardContent } from '../ui/card'
 import { DESIGN_IMAGES } from '@/constants/designOptions'
-import { FaInstagram, FaWhatsapp } from "react-icons/fa6";
 
 import { clsx } from 'clsx'
 import { useEffect, useState, useRef } from 'react';
+import { FaInstagram, FaWhatsapp } from "react-icons/fa6";
 
 interface EtiquetaPreviewProps {
   formData: FormData
@@ -14,7 +14,9 @@ const EtiquetaPreview = ({ formData }: EtiquetaPreviewProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
   const designImage = formData.design ? DESIGN_IMAGES[formData.design] : "/images/etiqueta/fondo-01.png"
-  const letterSpacing = formData.letterSpacing || 0
+
+  const [whatsappAngle, setWhatsappAngle] = useState(0);
+  const [instagramAngle, setInstagramAngle] = useState(0);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -71,12 +73,12 @@ const EtiquetaPreview = ({ formData }: EtiquetaPreviewProps) => {
       };
       img.src = designImage;
     };
-    
+
     // Function to draw curved text at the top of the canvas
     const drawCurvedText = () => {
       if (!ctx) return;
       
-      const phoneText = formData.phone || '809-123-4567';
+      const phoneText = formData.phone ? `   ${formData.phone}` : '   809-123-4567';
       
       // Calculate relative font size based on canvas width
       const fontSize = Math.max(canvas.width * 0.08, 16); // Minimum 16px, or 5% of canvas width
@@ -108,7 +110,7 @@ const EtiquetaPreview = ({ formData }: EtiquetaPreviewProps) => {
       
       // Calculate the starting angle for the text
       const textStartAngle = startAngle - (angleSpan * spacingFactor) / 2;
-      
+
       // Draw each character along the arc
       for (let i = 0; i < textLength; i++) {
         // Calculate the angle for this character with letter spacing applied
@@ -139,10 +141,17 @@ const EtiquetaPreview = ({ formData }: EtiquetaPreviewProps) => {
     // Handle window resize
     window.addEventListener('resize', updateCanvasSize);
     
+    
+    // Calculate icons rotation
+    const phoneTextWidth = ctx.measureText(formData.phone || '   809-123-4567').width;
+    const whatsappAngle = -phoneTextWidth * 0.5 - 20; // Adjust angle based on text width
+    setWhatsappAngle(whatsappAngle);
+   
     // Cleanup
     return () => {
       window.removeEventListener('resize', updateCanvasSize);
     };
+
   }, [designImage, formData.phone, formData.letterSpacing]);
 
   return (
@@ -160,6 +169,56 @@ const EtiquetaPreview = ({ formData }: EtiquetaPreviewProps) => {
         '!bg-transparent',
       )}
     >
+      {/* Instagram icon */}
+      {/* <div
+        className={clsx(
+          "absolute",
+          "bottom-0",
+          "left-1/2",
+          "-translate-x-1/2",
+          "z-30",
+          "h-1/2",
+          "flex",
+          "items-end",
+          "justify-center",
+          "origin-top-left",
+          "pb-5",
+          "text-3xl sm:text-5xl",
+        )}
+        style={{
+          transform: `rotate(10deg)`,
+        }}
+      >
+        <FaInstagram />
+      </div> */}
+
+      {/* Whatsapp icon */}
+      <div
+        className={clsx(
+          "whatsapp-icon",
+          "absolute",
+          "top-0",
+          "left-1/2",
+          "-translate-x-1/2",
+          "z-30",
+          "h-1/2",
+          "flex",
+          "items-start",
+          "justify-center",
+          "origin-bottom-left",
+          "pt-4 sm:pt-5",
+          "text-3xl sm:text-5xl",
+        )}
+        style={{
+          transform: `rotate(${whatsappAngle}deg)`,
+        }}
+      >
+        <FaWhatsapp 
+          style={{ transform: `rotate(${-whatsappAngle}deg)` }} 
+          // className={`debug`}
+        />
+      </div>
+
       <canvas 
         ref={canvasRef}
         className={clsx(

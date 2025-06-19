@@ -1,5 +1,5 @@
 import { FormData } from '@/types/form'
-import { Card, CardContent } from '../ui/card'
+import { Card } from '../ui/card'
 import { DESIGN_IMAGES } from '@/constants/designOptions'
 
 import { clsx } from 'clsx'
@@ -113,7 +113,7 @@ const EtiquetaPreview = ({ formData }: EtiquetaPreviewProps) => {
         : '   829-623-4554'
 
       // Calculate relative font size based on canvas width
-      const fontSize = Math.max(canvas.width * 0.08, 16) // Minimum 16px, or 5% of canvas width
+      const fontSize = Math.max(canvas.width * 0.06, 14) // Minimum 14px, or 5% of canvas width
 
       // Set text properties
       ctx.font = `${fontSize}px LiberationMono`
@@ -177,7 +177,7 @@ const EtiquetaPreview = ({ formData }: EtiquetaPreviewProps) => {
         : '   @redessociales'
 
       // Calculate relative font size based on canvas width
-      const fontSize = Math.max(canvas.width * 0.08, 16) // Minimum 16px, or 5% of canvas width
+      const fontSize = Math.max(canvas.width * 0.06, 14) // Minimum 14px, or 5% of canvas width
 
       // Set text properties
       ctx.font = `${fontSize}px LiberationMono`
@@ -245,12 +245,10 @@ const EtiquetaPreview = ({ formData }: EtiquetaPreviewProps) => {
     const socialTextWidth = ctx.measureText(
       formData.socialNetwork || '   @redessociales'
     ).width
-    const whatsappAngle = -phoneTextWidth * 0.5 - 15 // Adjust angle based on text width
-    const instagramAngle = socialTextWidth * 0.7 + 15 // Adjust angle based on text width
+    const whatsappAngle = -phoneTextWidth * 0.5 - 12 // Adjust angle based on text width
+    const instagramAngle = socialTextWidth * 0.7 + 12 // Adjust angle based on text width
     setWhatsappAngle(whatsappAngle)
     setInstagramAngle(instagramAngle)
-
-    console.log({ formData })
 
     // Cleanup
     return () => {
@@ -287,14 +285,16 @@ const EtiquetaPreview = ({ formData }: EtiquetaPreviewProps) => {
           'items-start',
           'justify-center',
           'origin-bottom-left',
-          'pt-4 sm:pt-5',
-          'text-3xl sm:text-5xl'
+          'pt-4 sm:pt-7',
+          'text-2xl sm:text-4xl'
         )}
         style={{
           transform: `rotate(${whatsappAngle}deg)`,
         }}
       >
-        <FaWhatsapp />
+        <FaWhatsapp
+          style={{ transform: `rotate(${-whatsappAngle/2}deg)` }}
+        />
       </div>
 
       {/* Whatsapp icon */}
@@ -311,8 +311,8 @@ const EtiquetaPreview = ({ formData }: EtiquetaPreviewProps) => {
           'items-end',
           'justify-center',
           'origin-top-left',
-          'pb-4 sm:pb-5',
-          'text-3xl sm:text-5xl'
+          'pb-4 sm:pb-6',
+          'text-2xl sm:text-4xl'
         )}
         style={{
           transform: `rotate(${instagramAngle}deg)`,

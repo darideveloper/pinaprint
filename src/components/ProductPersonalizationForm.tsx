@@ -13,7 +13,7 @@ import { ProductType, FormData } from '@/types/form';
 import { DESIGN_FONTS } from '@/constants/designFonts';
 
 const ProductPersonalizationForm = () => {
-  const [productType, setProductType] = useState<ProductType | null>(null);
+  const [productType, setProductType] = useState<ProductType | null>('etiqueta');
   const [formData, setFormData] = useState<FormData>({ letterSpacing: 0 });
 
   useEffect(() => {

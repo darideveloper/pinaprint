@@ -40,7 +40,7 @@ const EtiquetaPreview = ({ formData }: EtiquetaPreviewProps) => {
       drawOnCanvas()
     }
 
-    // Draw the design image on the canvas
+    // Draw the design/logo image on the canvas
     const drawOnCanvas = () => {
       if (!ctx) return
 
@@ -74,6 +74,27 @@ const EtiquetaPreview = ({ formData }: EtiquetaPreviewProps) => {
         const x = (canvas.width - drawWidth) / 2
         const y = (canvas.height - drawHeight) / 2
 
+        // Draw the logo in the center
+        if (formData.logo) {
+          const logoImg = new Image()
+          logoImg.onload = () => {
+            const logoWidth = canvas.width * 0.65 // 20% of canvas width
+            const logoHeight = logoWidth * (logoImg.height / logoImg.width)
+            const logoX = (canvas.width - logoWidth) / 2
+            const logoY = (canvas.height - logoHeight) / 2
+            ctx.drawImage(logoImg, logoX, logoY, logoWidth, logoHeight)
+
+            // Draw bg
+            ctx.drawImage(img, x, y, drawWidth, drawHeight)
+
+            // Draw the curved text after the image is loaded
+            drawCurvedPhoneText()
+            drawCurvedSocialText()
+          }
+          logoImg.src = formData.logo
+        }
+
+        // Draw bg
         ctx.drawImage(img, x, y, drawWidth, drawHeight)
 
         // Draw the curved text after the image is loaded
@@ -229,6 +250,8 @@ const EtiquetaPreview = ({ formData }: EtiquetaPreviewProps) => {
     setWhatsappAngle(whatsappAngle)
     setInstagramAngle(instagramAngle)
 
+    console.log({ formData })
+
     // Cleanup
     return () => {
       window.removeEventListener('resize', updateCanvasSize)
@@ -295,7 +318,7 @@ const EtiquetaPreview = ({ formData }: EtiquetaPreviewProps) => {
           transform: `rotate(${instagramAngle}deg)`,
         }}
       >
-        <FaInstagram/>
+        <FaInstagram />
       </div>
 
       <canvas

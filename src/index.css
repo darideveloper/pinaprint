@@ -196,6 +196,11 @@ button:focus-visible {
   .print-content, .print-content * {
     visibility: visible;
   }
+
+  body {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
   
   .print-content {
     position: absolute;

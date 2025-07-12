@@ -14,8 +14,11 @@ export const DESIGN_FONTS: Record<ProductType, FontOption[]> = {
     { value: 'impact', label: 'Impact', fontFamily: 'Impact' }
   ],
   'sello-rectangular': [
-    { value: 'helvetica', label: 'Helvetica', fontFamily: 'Helvetica' },
-    { value: 'opensans', label: 'Open Sans', fontFamily: 'OpenSans' }
+    { value: 'arial', label: 'Arial', fontFamily: 'Arial' },
+    { value: 'monotype-corsiva', label: 'Monotype Corsiva', fontFamily: 'MonotypeCorsiva' },
+    { value: 'snell', label: 'Snell', fontFamily: 'Snell' },
+    { value: 'times', label: 'Times', fontFamily: 'Times' },
+    { value: 'androgyne-tb', label: 'Androgyne TB', fontFamily: 'AndrogyneTB' },
   ],
   'sello-redondo': [
     { value: 'montserrat', label: 'Montserrat', fontFamily: 'Montserrat' },

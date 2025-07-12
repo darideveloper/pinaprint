@@ -54,6 +54,34 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: 'Snell';
+  src: url('/fonts/snellbt-regular.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Times';
+  src: url('/fonts/optitimes-roman.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'AndrogyneTB';
+  src: url('/fonts/androgyne_tb.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'MonotypeCorsiva';
+  src: url('/fonts/monotype-corsiva.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;

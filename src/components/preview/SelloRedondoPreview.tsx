@@ -156,6 +156,41 @@ const SelloRedondoPreview = ({ formData }: SelloRedondoPreviewProps) => {
         }
       }
       ctx.restore();
+
+      // --- Logo between top text and RNC ---
+      const logoMargin = 16; // px, space between logo and texts/circle
+      const maxLogoRadius = radius - logoMargin; // radius from center to inner circle minus margin
+      const maxLogoHeight = (centerY + RNC_OFFSET_Y) - (centerY - maxLogoRadius) - logoMargin; // from top of logo to RNC
+      const maxLogoWidth = maxLogoRadius * 2 - logoMargin * 2;
+      const logoSize = Math.min(maxLogoWidth, maxLogoHeight) * 0.8; // Make logo smaller
+      // Place logo between top arc and center (above RNC)
+      const topArcY = centerY - radius; // Y position of top arc
+      const rncY = centerY + RNC_OFFSET_Y; // Y position of RNC
+      // Interpolate Y: closer to center than to top arc
+      const logoY = topArcY + (rncY - topArcY) * 0.50 - logoSize / 2;
+      const logoX = centerX - logoSize / 2;
+      if (formData.logo) {
+        const logoImg = new window.Image();
+        logoImg.onload = () => {
+          ctx.save();
+          ctx.drawImage(logoImg, logoX, logoY, logoSize, logoSize);
+          ctx.restore();
+        };
+        logoImg.src = formData.logo;
+      } else {
+        // Draw blue square placeholder
+        ctx.save();
+        ctx.strokeStyle = '#1d4ed8';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(logoX, logoY, logoSize, logoSize);
+        ctx.beginPath();
+        ctx.moveTo(logoX, logoY);
+        ctx.lineTo(logoX + logoSize, logoY + logoSize);
+        ctx.moveTo(logoX + logoSize, logoY);
+        ctx.lineTo(logoX, logoY + logoSize);
+        ctx.stroke();
+        ctx.restore();
+      }
     };
 
     updateCanvasSize();

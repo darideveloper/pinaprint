@@ -1,12 +1,14 @@
 import { useEffect, useRef } from 'react';
 import { clsx } from 'clsx';
 import { FormData } from '@/types/form';
+import { DESIGN_FONTS } from '@/constants/designFonts';
 
 interface SelloRedondoPreviewProps {
   formData: FormData;
 }
 
 const SelloRedondoPreview = ({ formData }: SelloRedondoPreviewProps) => {
+
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -51,13 +53,59 @@ const SelloRedondoPreview = ({ formData }: SelloRedondoPreviewProps) => {
       ctx.arc(
         canvas.width / 2,
         canvas.height / 2,
-        (Math.min(canvas.width, canvas.height) / 2) - 14, // 20px from edge for inner circle
+        (Math.min(canvas.width, canvas.height) / 2) - 12, // 20px from edge for inner circle
         0,
         Math.PI * 2
       );
       ctx.lineWidth = 4; // Same border thickness as outer
       ctx.strokeStyle = '#1d4ed8';
       ctx.stroke();
+      ctx.restore();
+
+      // Draw arched name text at the top
+      const nameText = (formData.name || 'NOMBRE DE LA EMPRESA').toUpperCase();
+      // Get font family from formData.font (dynamic)
+      const fontValue = formData.font || 'montserrat';
+      const fontOption = DESIGN_FONTS['sello-redondo'].find(f => f.value.toLowerCase() === fontValue.toLowerCase());
+      const fontFamily = fontOption ? fontOption.fontFamily : 'Montserrat';
+      // Font size: visually match reference, about 10% of canvas width
+      const fontSize = Math.max(canvas.width * 0.09, 18);
+      ctx.save();
+      ctx.font = `bold ${fontSize}px ${fontFamily}`;
+      ctx.fillStyle = '#1d4ed8';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+
+      // Radius for text: just inside the inner circle, spaced from border
+      const radius = (Math.min(canvas.width, canvas.height) / 2) - 36;
+      const centerX = canvas.width / 2;
+      const centerY = canvas.height / 2;
+      // Centered arc logic
+      const anglePerChar = 0.16; // radians between letters (current spacing)
+      const anglePerSpace = 0.08; // radians between words (smaller spacing)
+      const textLength = nameText.length;
+      // Calculate totalAngle with custom spacing for spaces
+      let totalAngle = 0;
+      for (let i = 0; i < textLength - 1; i++) {
+        totalAngle += nameText[i] === ' ' ? anglePerSpace : anglePerChar;
+      }
+      const centerAngle = -Math.PI / 2; // top of the circle
+      const startAngle = centerAngle - totalAngle / 2;
+      let currentAngle = startAngle;
+      for (let i = 0; i < textLength; i++) {
+        const char = nameText[i];
+        const x = centerX + radius * Math.cos(currentAngle);
+        const y = centerY + radius * Math.sin(currentAngle);
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.rotate(currentAngle + Math.PI / 2);
+        ctx.fillText(char, 0, 0);
+        ctx.restore();
+        // Advance angle for next character
+        if (i < textLength - 1) {
+          currentAngle += char === ' ' ? anglePerSpace : anglePerChar;
+        }
+      }
       ctx.restore();
     };
 
@@ -66,7 +114,7 @@ const SelloRedondoPreview = ({ formData }: SelloRedondoPreviewProps) => {
     return () => {
       window.removeEventListener('resize', updateCanvasSize);
     };
-  }, []);
+  }, [formData]);
 
   return (
     <div

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { clsx } from 'clsx';
 import ProductTypeSelector from './form/ProductTypeSelector';
 import FontSelector from './form/FontSelector';
@@ -14,70 +14,10 @@ import { DESIGN_FONTS } from '@/constants/designFonts';
 
 const ProductPersonalizationForm = () => {
   const [productType, setProductType] = useState<ProductType | null>('etiqueta');
-  const [formData, setFormData] = useState<FormData>({ letterSpacing: 0 });
-
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const initialData: FormData = { letterSpacing: 0 };
-    const typeFromUrl = params.get('type') as ProductType;
-
-    if (typeFromUrl) {
-      setProductType(typeFromUrl);
-      
-      Array.from(params.entries()).forEach(([key, value]) => {
-        if (key.startsWith(`${typeFromUrl}-`)) {
-          const field = key.replace(`${typeFromUrl}-`, '');
-          initialData[field] = value;
-        }
-      });
-
-      const font = params.get('font');
-      if (font) {
-        initialData.font = font;
-      } else if (typeFromUrl && DESIGN_FONTS[typeFromUrl].length > 0) {
-        initialData.font = DESIGN_FONTS[typeFromUrl][0].value;
-      }
-
-      const letterSpacing = params.get('letterSpacing');
-      if (letterSpacing) {
-        initialData.letterSpacing = parseFloat(letterSpacing);
-      }
-
-      setFormData(initialData);
-
-      // Check for print parameter and trigger print if true
-      if (params.get('print') === 'true') {
-        setTimeout(() => {
-          window.print();
-        }, 1000); // Small delay to ensure content is rendered
-      }
-    }
-  }, []);
-
-  const updateURL = (newData: FormData, type: ProductType | null) => {
-    const params = new URLSearchParams(window.location.search);
-    
-    if (type) {
-      params.set('type', type);
-      
-      Object.entries(newData).forEach(([key, value]) => {
-        if (value !== undefined && !['font', 'letterSpacing'].includes(key)) {
-          params.set(`${type}-${key}`, value.toString());
-        }
-      });
-      
-      if (newData.font) {
-        params.set('font', newData.font);
-      }
-
-      if (newData.letterSpacing !== undefined) {
-        params.set('letterSpacing', newData.letterSpacing.toString());
-      }
-      
-      const newUrl = `${window.location.pathname}?${params.toString()}`;
-      window.history.replaceState({}, '', newUrl);
-    }
-  };
+  const [formData, setFormData] = useState<FormData>({ 
+    letterSpacing: 0,
+    font: DESIGN_FONTS['etiqueta'][0].value 
+  });
 
   const handleProductTypeChange = (type: ProductType) => {
     setProductType(type);
@@ -86,15 +26,11 @@ const ProductPersonalizationForm = () => {
       font: DESIGN_FONTS[type][0].value 
     };
     setFormData(initialData);
-    updateURL(initialData, type);
   };
 
   const handleFormChange = (data: Partial<FormData>) => {
     const newData = { ...formData, ...data };
     setFormData(newData);
-    if (productType) {
-      updateURL(newData, productType);
-    }
   };
 
   const handleFileUpload = (file: File) => {
@@ -105,7 +41,6 @@ const ProductPersonalizationForm = () => {
         logo: reader.result as string
       };
       setFormData(newData);
-      // Removed URL update for logo
     };
     reader.readAsDataURL(file);
   };

@@ -1,90 +1,78 @@
-import { FormData } from '@/types/form';
+import { useEffect, useRef } from 'react';
 import { clsx } from 'clsx';
+import { FormData } from '@/types/form';
 
 interface SelloRedondoPreviewProps {
   formData: FormData;
 }
 
 const SelloRedondoPreview = ({ formData }: SelloRedondoPreviewProps) => {
-  const letterSpacing = formData.letterSpacing ?? 0;
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    // Responsive canvas size
+    const updateCanvasSize = () => {
+      const parent = canvas.parentElement;
+      if (!parent) return;
+      const { width, height } = parent.getBoundingClientRect();
+      canvas.width = width;
+      canvas.height = height;
+      drawCircleBorder();
+    };
+
+    // Draw only the outer circle border
+    const drawCircleBorder = () => {
+      if (!ctx) return;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(
+        canvas.width / 2,
+        canvas.height / 2,
+        (Math.min(canvas.width, canvas.height) / 2) - 4, // 4px padding for border
+        0,
+        Math.PI * 2
+      );
+      ctx.lineWidth = 4; // Outer border thickness
+      ctx.strokeStyle = '#1d4ed8'; // Tailwind 'primary' blue-700 as example
+      ctx.stroke();
+      ctx.restore();
+    };
+
+    updateCanvasSize();
+    window.addEventListener('resize', updateCanvasSize);
+    return () => {
+      window.removeEventListener('resize', updateCanvasSize);
+    };
+  }, []);
 
   return (
-    <div 
+    <div
+      ref={containerRef}
       className={clsx(
-        'rounded-full',
-        'border-4',
-        'border-primary',
-        'w-[250px]',
-        'h-[250px]',
+        'w-[250px] h-[250px] sm:w-[350px] sm:h-[350px]',
+        'mx-auto',
+        'relative',
+        'aspect-square',
         'flex',
         'items-center',
         'justify-center',
         'bg-white',
-        'text-primary',
-        'p-4',
-        'mx-auto',
-        'relative',
-        'overflow-hidden'
+        'overflow-hidden',
+        'rounded-full',
+        'border-none', // border is drawn by canvas
       )}
-      style={{ 
-        fontFamily: formData.font || 'inherit',
-        letterSpacing: `${letterSpacing}px`
-      }}
     >
-      <div className={clsx(
-        'text-center',
-        'space-y-4',
-        'w-full',
-        'relative',
-        'z-10'
-      )}>
-        {formData.logo && (
-          <div className={clsx(
-            'w-16',
-            'h-16',
-            'mx-auto',
-            'mb-2'
-          )}>
-            <img
-              src={formData.logo}
-              alt="Logo"
-              className={clsx(
-                'w-full',
-                'h-full',
-                'object-contain'
-              )}
-            />
-          </div>
-        )}
-        
-        <div className={clsx('space-y-2')}>
-          <p className={clsx(
-            'font-bold',
-            'uppercase',
-            'text-xl',
-            'line-clamp-1',
-            !formData.name && 'text-muted-foreground'
-          )}>
-            {formData.name || 'Nombre de la Empresa'}
-          </p>
-          
-          <p className={clsx(
-            'text-sm',
-            'line-clamp-1',
-            !formData.rnc && 'text-muted-foreground'
-          )}>
-            RNC: {formData.rnc || '000-00000-0'}
-          </p>
-          
-          <p className={clsx(
-            'text-sm',
-            'line-clamp-1',
-            !formData.city && 'text-muted-foreground'
-          )}>
-            {formData.city || 'Ciudad'}
-          </p>
-        </div>
-      </div>
+      <canvas
+        ref={canvasRef}
+        className={clsx('w-full', 'h-full', 'block', 'rounded-full')}
+      />
     </div>
   );
 };

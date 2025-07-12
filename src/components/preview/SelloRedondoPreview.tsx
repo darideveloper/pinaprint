@@ -31,6 +31,7 @@ const SelloRedondoPreview = ({ formData }: SelloRedondoPreviewProps) => {
       if (!ctx) return;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.save();
+      // Outer circle
       ctx.beginPath();
       ctx.arc(
         canvas.width / 2,
@@ -40,7 +41,22 @@ const SelloRedondoPreview = ({ formData }: SelloRedondoPreviewProps) => {
         Math.PI * 2
       );
       ctx.lineWidth = 4; // Outer border thickness
-      ctx.strokeStyle = '#1d4ed8'; // Tailwind 'primary' blue-700 as example
+      ctx.strokeStyle = '#1d4ed8';
+      ctx.stroke();
+      ctx.restore();
+
+      // Inner circle
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(
+        canvas.width / 2,
+        canvas.height / 2,
+        (Math.min(canvas.width, canvas.height) / 2) - 14, // 20px from edge for inner circle
+        0,
+        Math.PI * 2
+      );
+      ctx.lineWidth = 4; // Same border thickness as outer
+      ctx.strokeStyle = '#1d4ed8';
       ctx.stroke();
       ctx.restore();
     };

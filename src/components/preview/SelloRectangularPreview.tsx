@@ -8,56 +8,37 @@ interface SelloRectangularPreviewProps {
 const SelloRectangularPreview = ({ formData }: SelloRectangularPreviewProps) => {
   const letterSpacing = formData.letterSpacing ?? 0;
 
+  // The image ratio is approximately 2.7:1 (width:height)
+  // We'll use aspect-[27/10] for a closer match
   return (
-    <div 
+    <div
       className={clsx(
-        'border-4',
-        'border-primary',
-        'p-6',
-        'rounded-md',
-        'w-[400px]',
-        'h-[250px]',
-        'mx-auto',
+        'border',
+        'border-black',
         'bg-white',
-        'text-primary',
+        'w-[400px]',
+        'mx-auto',
+        'aspect-[30/10]', // Closer to the image's ratio
         'flex',
-        'items-center'
+        'items-center',
+        'justify-center',
+        'p-2',
+        'overflow-hidden', // Hide overflowing content
+        "mx-2"
       )}
-      style={{ 
-        fontFamily: formData.font || 'inherit',
-        letterSpacing: `${letterSpacing}px`
+      style={{
+        fontFamily: formData.font || 'Arial, Helvetica, sans-serif',
+        letterSpacing: `${letterSpacing}px`,
       }}
     >
-      <div className={clsx(
-        'space-y-2',
-        'text-center',
-        'w-full'
-      )}>
-        <p className={clsx(
-          'font-bold',
-          'uppercase',
-          'text-xl',
-          'line-clamp-1',
-          !formData.text2 && !formData.text3 && 'text-2xl',
-          !formData.text1 && 'text-muted-foreground'
-        )}>
+      <div className="w-full text-center flex flex-col justify-center items-center gap-y-1">
+        <p className="text-black text-[2.1rem] leading-tight uppercase whitespace-nowrap">
           {formData.text1 || 'Texto Principal'}
         </p>
-        
-        <p className={clsx(
-          'font-medium',
-          'text-lg',
-          'line-clamp-1',
-          !formData.text2 && 'text-muted-foreground'
-        )}>
+        <p className="font-normal text-black text-[1.3rem] leading-tight whitespace-nowrap">
           {formData.text2 || 'Texto Secundario'}
         </p>
-        
-        <p className={clsx(
-          'text-base',
-          'line-clamp-1',
-          !formData.text3 && 'text-muted-foreground'
-        )}>
+        <p className="font-normal text-black text-[1.5rem] leading-tight whitespace-nowrap">
           {formData.text3 || 'Texto Adicional'}
         </p>
       </div>

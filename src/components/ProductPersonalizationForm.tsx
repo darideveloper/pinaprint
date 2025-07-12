@@ -7,7 +7,7 @@ import LetreroForm from './form/LetreroForm';
 import SelloRectangularForm from './form/SelloRectangularForm';
 import SelloRedondoForm from './form/SelloRedondoForm';
 import ProductPreview from './preview/ProductPreview';
-import ShareButtons from './ShareButtons';
+
 import { Card, CardContent } from './ui/card';
 import { ProductType, FormData } from '@/types/form';
 import { DESIGN_FONTS } from '@/constants/designFonts';
@@ -218,10 +218,23 @@ const ProductPersonalizationForm = () => {
               <ProductPreview productType={productType} formData={formData} />
               
               <div className={clsx('mt-4', 'md:mt-6')}>
-                <ShareButtons 
-                  url={window.location.href}
-                  title="¡Mira mi diseño personalizado!"
-                />
+                <button
+                  onClick={() => window.print()}
+                  className={clsx(
+                    'w-full',
+                    'bg-primary',
+                    'text-primary-foreground',
+                    'px-4',
+                    'py-2',
+                    'rounded-md',
+                    'hover:bg-primary/90',
+                    'transition-colors',
+                    'font-medium',
+                    'print:hidden'
+                  )}
+                >
+                  Guardar
+                </button>
               </div>
             </CardContent>
           </Card>

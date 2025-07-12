@@ -62,7 +62,7 @@ const SelloRedondoPreview = ({ formData }: SelloRedondoPreviewProps) => {
       ctx.stroke();
       ctx.restore();
 
-      // Draw arched name text at the top
+      // --- RNC in the center ---
       const nameText = (formData.name || 'NOMBRE DE LA EMPRESA').toUpperCase();
       // Get font family from formData.font (dynamic)
       const fontValue = formData.font || 'montserrat';
@@ -106,6 +106,20 @@ const SelloRedondoPreview = ({ formData }: SelloRedondoPreviewProps) => {
           currentAngle += char === ' ' ? anglePerSpace : anglePerChar;
         }
       }
+      ctx.restore();
+
+      // --- RNC in the center ---
+      const rncText = (formData.rnc || 'RNC. 000-00000-0').toUpperCase();
+      // Easy to adjust offsets from center
+      const RNC_OFFSET_X = 0; // px, right (+) or left (-) from center
+      const RNC_OFFSET_Y = 20; // px, down (+) or up (-) from center
+      const rncFontSize = fontSize * 0.9; // Slightly smaller than top text
+      ctx.save();
+      ctx.font = `bold ${rncFontSize}px ${fontFamily}`;
+      ctx.fillStyle = '#1d4ed8';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(rncText, centerX + RNC_OFFSET_X, centerY + RNC_OFFSET_Y);
       ctx.restore();
 
       // Draw arched city text at the bottom

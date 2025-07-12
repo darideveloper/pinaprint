@@ -8,8 +8,6 @@ interface SelloRectangularPreviewProps {
 const SelloRectangularPreview = ({ formData }: SelloRectangularPreviewProps) => {
   const letterSpacing = formData.letterSpacing ?? 0;
 
-  // The image ratio is approximately 2.7:1 (width:height)
-  // We'll use aspect-[27/10] for a closer match
   return (
     <div
       className={clsx(
@@ -24,7 +22,7 @@ const SelloRectangularPreview = ({ formData }: SelloRectangularPreviewProps) => 
         'justify-center',
         'p-2',
         'overflow-hidden', // Hide overflowing content
-        "mx-2"
+        'mx-2',
       )}
       style={{
         fontFamily: formData.font || 'Arial, Helvetica, sans-serif',
@@ -32,13 +30,37 @@ const SelloRectangularPreview = ({ formData }: SelloRectangularPreviewProps) => 
       }}
     >
       <div className="w-full text-center flex flex-col justify-center items-center gap-y-1">
-        <p className="text-black text-[2.1rem] leading-tight uppercase whitespace-nowrap">
+        <p
+          className={clsx(
+            'text-black',
+            'text-2xl xs:text-4xl',
+            'leading-tight',
+            'uppercase',
+            'whitespace-nowrap'
+          )}
+        >
           {formData.text1 || 'Texto Principal'}
         </p>
-        <p className="font-normal text-black text-[1.3rem] leading-tight whitespace-nowrap">
+        <p
+          className={clsx(
+            'font-normal',
+            'text-black',
+            'text-lg xs:text-2xl',
+            'leading-tight',
+            'whitespace-nowrap'
+          )}
+        >
           {formData.text2 || 'Texto Secundario'}
         </p>
-        <p className="font-normal text-black text-[1.5rem] leading-tight whitespace-nowrap">
+        <p
+          className={clsx(
+            'font-normal',
+            'text-black',
+            'text-lg xs:text-2xl',
+            'leading-tight',
+            'whitespace-nowrap'
+          )}
+        >
           {formData.text3 || 'Texto Adicional'}
         </p>
       </div>

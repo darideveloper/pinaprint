@@ -68,7 +68,7 @@ const SelloRedondoPreview = ({ formData }: SelloRedondoPreviewProps) => {
       const fontValue = formData.font || 'montserrat';
       const fontOption = DESIGN_FONTS['sello-redondo'].find(f => f.value.toLowerCase() === fontValue.toLowerCase());
       const fontFamily = fontOption ? fontOption.fontFamily : 'Montserrat';
-      // Font size: visually match reference, about 10% of canvas width
+      // Font size: visually match reference, about 9% of canvas width
       const fontSize = Math.max(canvas.width * 0.09, 18);
       ctx.save();
       ctx.font = `bold ${fontSize}px ${fontFamily}`;
@@ -80,7 +80,7 @@ const SelloRedondoPreview = ({ formData }: SelloRedondoPreviewProps) => {
       const radius = (Math.min(canvas.width, canvas.height) / 2) - 36;
       const centerX = canvas.width / 2;
       const centerY = canvas.height / 2;
-      // Centered arc logic
+      // Centered arc logic for top text
       const anglePerChar = 0.16; // radians between letters (current spacing)
       const anglePerSpace = 0.08; // radians between words (smaller spacing)
       const textLength = nameText.length;
@@ -104,6 +104,41 @@ const SelloRedondoPreview = ({ formData }: SelloRedondoPreviewProps) => {
         // Advance angle for next character
         if (i < textLength - 1) {
           currentAngle += char === ' ' ? anglePerSpace : anglePerChar;
+        }
+      }
+      ctx.restore();
+
+      // Draw arched city text at the bottom
+      const cityText = (formData.city || 'CIUDAD O DOMICILIO').toUpperCase();
+      const cityFontSize = fontSize * 0.85; // Slightly smaller font for bottom text
+      ctx.save();
+      ctx.font = `bold ${cityFontSize}px ${fontFamily}`;
+      ctx.fillStyle = '#1d4ed8';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      // Centered arc logic for bottom text (mirrored)
+      const cityTextLength = cityText.length;
+      const cityAnglePerChar = 0.12; // Smaller angle spacing for city text
+      const cityAnglePerSpace = 0.06; // Smaller spacing between words for city text
+      let cityTotalAngle = 0;
+      for (let i = 0; i < cityTextLength - 1; i++) {
+        cityTotalAngle += cityText[i] === ' ' ? cityAnglePerSpace : cityAnglePerChar;
+      }
+      const bottomCenterAngle = Math.PI / 2; // bottom of the circle
+      const cityStartAngle = bottomCenterAngle + cityTotalAngle / 2;
+      let cityCurrentAngle = cityStartAngle;
+      for (let i = 0; i < cityTextLength; i++) {
+        const char = cityText[i];
+        const x = centerX + radius * Math.cos(cityCurrentAngle);
+        const y = centerY + radius * Math.sin(cityCurrentAngle);
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.rotate(cityCurrentAngle - Math.PI / 2); // mirror for bottom
+        ctx.fillText(char, 0, 0);
+        ctx.restore();
+        // Advance angle for next character (move counterclockwise)
+        if (i < cityTextLength - 1) {
+          cityCurrentAngle -= char === ' ' ? cityAnglePerSpace : cityAnglePerChar;
         }
       }
       ctx.restore();

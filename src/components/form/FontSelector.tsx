@@ -18,10 +18,21 @@ interface FontSelectorProps {
 const FontSelector = ({ value, onChange, productType }: FontSelectorProps) => {
   const fontOptions = DESIGN_FONTS[productType];
 
+  const handleFontChange = (selectedValue: string) => {
+    // Find the selected font option and save the fontFamily instead of the value
+    const selectedFont = fontOptions.find(option => option.value === selectedValue);
+    if (selectedFont) {
+      onChange(selectedFont.fontFamily);
+    }
+  };
+
+  // Find the current font option based on the stored fontFamily
+  const currentFontOption = fontOptions.find(option => option.fontFamily === value);
+
   return (
     <Select
-      value={value}
-      onValueChange={onChange}
+      value={currentFontOption?.value || ''}
+      onValueChange={handleFontChange}
     >
       <SelectTrigger className={clsx('w-full')}>
         <SelectValue placeholder="Seleccione una fuente" />

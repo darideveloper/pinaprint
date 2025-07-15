@@ -8,6 +8,7 @@ interface SelloRectangularFormProps {
 }
 
 const SelloRectangularForm = ({ formData, onChange }: SelloRectangularFormProps) => {
+
   return (
     <div className={clsx(
       'space-y-2',

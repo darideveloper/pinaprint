@@ -177,19 +177,6 @@ const SelloRedondoPreview = ({ formData }: SelloRedondoPreviewProps) => {
           ctx.restore();
         };
         logoImg.src = formData.logo;
-      } else {
-        // Draw blue square placeholder
-        ctx.save();
-        ctx.strokeStyle = '#1d4ed8';
-        ctx.lineWidth = 2;
-        ctx.strokeRect(logoX, logoY, logoSize, logoSize);
-        ctx.beginPath();
-        ctx.moveTo(logoX, logoY);
-        ctx.lineTo(logoX + logoSize, logoY + logoSize);
-        ctx.moveTo(logoX + logoSize, logoY);
-        ctx.lineTo(logoX, logoY + logoSize);
-        ctx.stroke();
-        ctx.restore();
       }
     };
 

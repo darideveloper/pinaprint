@@ -48,13 +48,6 @@
 }
 
 @font-face {
-  font-family: 'Arial';
-  src: url('/fonts/arial.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
   font-family: 'Snell';
   src: url('/fonts/snellbt-regular.otf') format('opentype');
   font-weight: normal;
@@ -78,6 +71,13 @@
 @font-face {
   font-family: 'MonotypeCorsiva';
   src: url('/fonts/monotype-corsiva.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Impact';
+  src: url('/fonts/impact.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
